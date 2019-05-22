@@ -5,22 +5,23 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Shop2.Web.Data;
 
 namespace Shop2.Web.Controllers
 {
     public class ProductsController : Controller
     {
-        private readonly DataContext _context;
+        private readonly IRepository repository;
 
-        public ProductsController(DataContext context)
+        public ProductsController(IRepository repository)
         {
-            _context = context;
+            this.repository = repository;
         }
 
         // GET: Products
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _context.Products.ToListAsync());
+            return View(this.repository.GetProducts());
         }
 
         // GET: Products/Details/5
